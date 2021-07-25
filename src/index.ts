@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-require('dotenv').config();
+import { fetchRelevantTopicsFromDb } from './fetchRelevantTopicsFromDb';
 
 const app = express();
 app.use(express.json());
@@ -20,4 +20,11 @@ app.get('/', async (req, res) => {
   return res.status(200).send('OK');
 });
 
-module.exports = app.listen(port, () => console.log('Starting OnLoop API server on port ' + port));
+app.get('/search', async (req, res) => {
+
+  const queryTopic = req.query.topic as string;
+  await fetchRelevantTopicsFromDb(queryTopic);
+  res.status(200).send('Fetched all relevant topics!');
+});
+
+module.exports = app.listen(port, () => console.log('Starting Pencil Backend server on port ' + port));
