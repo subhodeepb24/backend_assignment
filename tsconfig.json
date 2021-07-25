@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "rootDir": ".",
+    "outDir": "lib",
+    "module": "commonjs",
+    "resolveJsonModule": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "src/**/*.ts",
+  ]
+}
