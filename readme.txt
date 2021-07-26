@@ -81,6 +81,7 @@ use-case than add/update operation of nodes, I went with this chosen approach.
 - Requirement 3: The GET /search API endpoint has been created using NodeJS + Express based server. This express server
 has been wrapped inside a Firebase Function so that it can be hosted easily for access. The other approach could have
 been to use GCP's Cloud Run or App Engine.
+The API endpoint: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q={queryTopic}
 
 
 - Requirement 4: In terms of the code making efficient queries, the considerations while deciding the schema have already
@@ -100,15 +101,15 @@ FILTER: {"annotations": "Golgi body"} returns 4 documents (question objects) whi
 - Requirement 6:
     - Github repository: https://github.com/subhodeepb24/backend_assignment
     - Example request URLs:
-        * https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?topic=
+        * https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=
 
         Response:
         {
           "message": "Bad request, search topic cannot be empty!"
         }
 
-        * Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?topic=Biological Molecules 
-        Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?topic=Biological%20Molecules
+        * Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=Biological Molecules 
+        Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=Biological%20Molecules
 
         Response:
         {
@@ -119,8 +120,8 @@ FILTER: {"annotations": "Golgi body"} returns 4 documents (question objects) whi
                         "178","181","182","183","188","197"]
         }
 
-        * Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?topic=List the chemical elements which make up
-        Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?topic=List%20the%20chemical%20elements%20which%20make%20up
+        * Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=List the chemical elements which make up
+        Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=List%20the%20chemical%20elements%20which%20make%20up
 
         Response:
         {

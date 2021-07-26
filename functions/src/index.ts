@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // /GET API endpoint for searching questions DB based on topics search string.
 app.get('/search', async (req, res) => {
-  const queryTopic = req.query.topic as string;
+  const queryTopic = req.query.q as string;
 
   if (queryTopic.length === 0) {
     return res.status(400).json({
