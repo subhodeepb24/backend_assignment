@@ -11,7 +11,7 @@ const questionsCollectionName = "questions";
 // containing relevant topic annotations
 // based on the topic search string passed to the API 
 // and retrieve all relevant questions numbers.
-export async function fetchRelevantTopicsFromDb(queryTopic: string)
+export async function fetchRelevantQuestionsFromDb(queryTopic: string)
   : Promise<string[]> {
 
   // Setting up the MongoDB Atlas connection string 
@@ -37,7 +37,6 @@ export async function fetchRelevantTopicsFromDb(queryTopic: string)
     // Since we want to find questions based on the query topic as well,
     // we add it to the "children" array to make a complete list of topics
     children.push(queryTopic);
-    console.log(children);
 
     // Initialising the questions collection object.
     const questionsCollection = db.collection(questionsCollectionName);
@@ -55,10 +54,9 @@ export async function fetchRelevantTopicsFromDb(queryTopic: string)
       questionNumbers.push(questionObj._id);
     });
 
-    console.log(questionNumbers);
     return questionNumbers;
   } catch (error) {
-    console.log("Error ...: " + error.stack);
+    console.log("Error retrieving relevant questions from database: " + error.stack);
     return [];
   } finally {
     await client.close();

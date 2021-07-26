@@ -7,8 +7,24 @@ const dbName = "questions";
 const topicsCollectionName = "topics";
 
 // Function to load up topics data to MongoDB database collection.
-// The schema:
-// Reasoning:
+// The schema: Collection name: 'topics'
+/*  [ 
+      {
+        _id: string, // topic name of the current node
+        children: string[] // array of topic names (nodes) which are descendants (all children) of '_id' node
+      } 
+    ]
+*/
+
+// Reasoning behind schema choice: We store all descendants (all children below current node) in the 'children' array
+// so as to ensure fast and efficient retrieval of all relevant topics for which question numbers need to be retrieved
+// based on the search topic. The trade-off hear is that add and update operations of nodes will be slightly more
+// tediuos since they will need to add and update in multiple node levels across a tree path.
+// The alternative approach can be to store only the immediate children nodes in the children array, in which case, 
+// the search logic will have to recursively find all relevant topics (children nodes) by traversing through multiple
+// tree paths which might lead to the Search API being slower and less efficient. And since, retrieval is a more common
+// use-case than add/update operation of nodes, I went with this chosen approach.
+
 export async function insertTopicsToDb() {
   // Setting up the MongoDB Atlas connection string 
   // using credentials to connect to database.
@@ -850,11 +866,11 @@ export async function insertTopicsToDb() {
           "Describe and interpret pyramids of numbers and biomass", "Describe how carbon is cycled within an ecosystem and outline the role of forests and oceans as carbon sinks",
           "Outline the roles of microorganisms in sewage treatment as an example of environmental biotechnology",
           "Discuss reasons for conservation of species with reference to the maintenance of biodiversity and how this is done, e.g. management of fisheries and management of timber production"]
-      },
+      }
     ]);
 
     // Creating an index on the '_id' field to enable fast searches.
-    await topics.createIndex( { _id: 1 } )
+    await topics.createIndex({ _id: 1 });
 
   } catch (error) {
     console.log("Error in inserting topics data into database: " + error.stack);

@@ -7,8 +7,22 @@ const dbName = "questions";
 const questionsCollectionName = "questions";
 
 // Function to load up questions data to MongoDB database collection.
-// The schema:
-// Reasoning:
+// The schema: Collection name: 'questions'
+/*  [ 
+      {
+        _id: string, // question number
+        annotations: string[] // array of annotations (topic names) associated with the question
+      } 
+    ]
+*/
+
+// Reasoning behind schema choice: We store the questions and relevant annotations in the above schema format
+// so that the search operation on the 'questions' collection remains efficient and fast as it will involve an
+// array query on the 'annotations' array based on the array of relevant topics retrieved based on the search topic
+// using an 'in' operation. This way, the entire search function will always be 2 queries:
+// 1. Retrieve all relevant topics based on a search topic from the topics collection.
+// 2. Retrieve all relevant questions based on the topics array retrieved in (1) from the questions collection.
+
 export async function insertQuestionsToDb() {
   // Setting up the MongoDB Atlas connection string 
   // using credentials to connect to database.
@@ -226,7 +240,7 @@ export async function insertQuestionsToDb() {
       { _id: "196", annotations: ["Conduction and support – xylem vessels"] },
       { _id: "197", annotations: ["Explain the terms dominant, recessive, codominant, homozygous, heterozygous, phenotype and genotype", "Discuss the spread of human immunodeficiency virus (HIV) and methods by which it may be controlled", "Explain the mode of action of enzymes in terms of an active site, enzyme-substrate complex, lowering of activation energy and enzyme specificity"] },
       { _id: "198", annotations: ["Explain the terms dominant, recessive, codominant, homozygous, heterozygous, phenotype and genotype", "How wilting occurs", "Describe the removal of carbon dioxide from the lungs, including the role of the carbonic anhydrase enzyme", "State the structure of DNA in terms of the bases, sugar and phosphate groups found in each of their nucleotides", "List the different ABO blood groups and all possible combinations for the donor and recipient in blood transfusions"] },
-      { _id: "199", annotations: ["Reducing sugars (Benedict's solution) "] },
+      { _id: "199", annotations: ["Reducing sugars (Benedict's solution) "] }
     ]);
 
     // Creating an index on the 'annotations' field (topic array) to enable fast searches.
