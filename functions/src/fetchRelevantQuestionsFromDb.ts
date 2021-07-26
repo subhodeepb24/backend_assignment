@@ -54,6 +54,11 @@ export async function fetchRelevantQuestionsFromDb(queryTopic: string)
       questionNumbers.push(questionObj._id);
     });
 
+    // Sorting question numbers in ascending order.
+    questionNumbers.sort(function(a, b) {
+      return Number(a) - Number(b);
+    });
+
     return questionNumbers;
   } catch (error) {
     console.log("Error retrieving relevant questions from database: " + error.stack);
