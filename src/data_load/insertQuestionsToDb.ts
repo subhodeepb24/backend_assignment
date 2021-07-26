@@ -1,19 +1,32 @@
 const { MongoClient } = require("mongodb");
+// MongoDB credentials for logging in, connecting and performing operations
+// on collections in the database.
 const username = "subhodeep";
 const password = "pencil";
 const dbName = "questions";
+const questionsCollectionName = "questions";
 
+// Function to load up questions data to MongoDB database collection.
+// The schema:
+// Reasoning:
 export async function insertQuestionsToDb() {
+  // Setting up the MongoDB Atlas connection string 
+  // using credentials to connect to database.
   const url = `mongodb+srv://${username}:${password}@cluster1.8nhci.mongodb.net/${dbName}?retryWrites=true&w=majority`;
   const client = new MongoClient(url);
 
   try {
+    // Connecting to MongoDB databsee cluster.
     await client.connect();
     console.log("Connected to MongoDB server...");
+
+    // Initialising the database object.
     const db = client.db(dbName);
-    const questions = db.collection("questions");
+    // Initialising the topics collection object.
+    const questions = db.collection(questionsCollectionName);
     // await topics.drop()
 
+    // Inserting the questions data in the chosen schema.
     await questions.insertMany([
       { _id: "1", annotations: ["Define diffusion and describe its role in nutrient uptake and gaseous exchange in plants and humans", "Define active transport and discuss its importance as an energy-consuming process by which substances are transported against a concentration gradient, as in ion uptake by root hairs and uptake of glucose by cells in the villi", "Define homeostasis as the maintenance of a constant internal environment"] },
       { _id: "2", annotations: ["Golgi body", "Reducing sugars (Benedict's solution)", "Explain how energy losses occur along food chains, and discuss the efficiency of energy transfer between trophic levels", "Explain what is meant by an endocrine gland, with reference to the islets of Langerhans in the pancreas"] },
@@ -216,17 +229,17 @@ export async function insertQuestionsToDb() {
       { _id: "199", annotations: ["Reducing sugars (Benedict's solution) "] },
     ]);
 
+    // Creating an index on the 'annotations' field (topic array) to enable fast searches.
     await questions.createIndex({ annotations: 1 });
 
   } catch (error) {
     console.log("Error in inserting questions data into database: " + error.stack);
-  }
-
-  finally {
+  } finally {
     await client.close();
   }
 }
 
+// Wrapper function to invoke the data load function above.
 insertQuestionsToDb().then(result => {
   console.log("Inserting questions data to database completed!");
 }).catch(error => console.log(error));

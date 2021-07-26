@@ -1,19 +1,32 @@
 const { MongoClient } = require("mongodb");
+// MongoDB credentials for logging in, connecting and performing operations
+// on collections in the database.
 const username = "subhodeep";
 const password = "pencil";
 const dbName = "questions";
+const topicsCollectionName = "topics";
 
+// Function to load up topics data to MongoDB database collection.
+// The schema:
+// Reasoning:
 export async function insertTopicsToDb() {
+  // Setting up the MongoDB Atlas connection string 
+  // using credentials to connect to database.
   const url = `mongodb+srv://${username}:${password}@cluster1.8nhci.mongodb.net/${dbName}?retryWrites=true&w=majority`;
   const client = new MongoClient(url);
 
   try {
+    // Connecting to MongoDB databsee cluster.
     await client.connect();
     console.log("Connected to MongoDB server...");
+
+    // Initialising the database object.
     const db = client.db(dbName);
-    const topics = db.collection("topics");
+    // Initialising the topics collection object.
+    const topics = db.collection(topicsCollectionName);
     // await topics.drop();
 
+    // Inserting the topics data in the chosen schema.
     await topics.insertMany([
       {
         _id: "Chloroplasts",
@@ -840,17 +853,17 @@ export async function insertTopicsToDb() {
       },
     ]);
 
+    // Creating an index on the '_id' field to enable fast searches.
     await topics.createIndex( { _id: 1 } )
 
   } catch (error) {
     console.log("Error in inserting topics data into database: " + error.stack);
-  }
-
-  finally {
+  } finally {
     await client.close();
   }
 }
 
+// Wrapper function to invoke the data load function above.
 insertTopicsToDb().then(result => {
   console.log('Inserting topics data to database completed!');
 }).catch(error => console.log(error));

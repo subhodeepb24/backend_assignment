@@ -15,16 +15,16 @@ if (process.env.PORT != null) {
   port = 9010;
 }
 
-// Call function
-app.get('/', async (req, res) => {
-  return res.status(200).send('OK');
-});
-
+// /GET API endpoint for searching questions DB based on topics search string.
 app.get('/search', async (req, res) => {
-
   const queryTopic = req.query.topic as string;
-  await fetchRelevantTopicsFromDb(queryTopic);
-  res.status(200).send('Fetched all relevant topics!');
+  const questionsList = await fetchRelevantTopicsFromDb(queryTopic);
+  
+  return res.status(200).json({
+    statusCode: 200,
+    message: "Fetched all relevant questions based on search topic!",
+    questions: questionsList
+  });
 });
 
 module.exports = app.listen(port, () => console.log('Starting Pencil Backend server on port ' + port));
