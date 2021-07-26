@@ -107,10 +107,11 @@ FILTER: {"annotations": "Golgi body"} returns 4 documents (question objects) whi
         {
           "message": "Bad request, search topic cannot be empty!"
         }
+        ---------------------------------------------------------
 
-        * Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=Biological Molecules 
-        Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=Biological%20Molecules
-
+        * Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=Biological%20Molecules
+          Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=Biological Molecules 
+        
         Response:
         {
           "message": "Fetched all relevant questions based on search topic!",
@@ -119,10 +120,11 @@ FILTER: {"annotations": "Golgi body"} returns 4 documents (question objects) whi
                         "120","127","128","129","134","146","153","166","171","174","176",
                         "178","181","182","183","188","197"]
         }
+        ---------------------------------------------------------
 
-        * Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=List the chemical elements which make up
-        Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=List%20the%20chemical%20elements%20which%20make%20up
-
+        * Browser address bar: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=List%20the%20chemical%20elements%20which%20make%20up
+          Postman: https://us-central1-pencil-backend-assignment.cloudfunctions.net/assignment/search?q=List the chemical elements which make up
+        
         Response:
         {
           "message": "Fetched all relevant questions based on search topic!",
