@@ -14,6 +14,12 @@ The schema: Collection name: 'questions'
   } 
 ]
 
+Example:
+[
+  { _id: "1", annotations: ["Lipids such as fats from glycerol and fatty acids", "Distribution of chloroplasts in photosynthesis"] },
+  { _id: "2", annotations: ["Explain enzyme action in terms of the ‘lock and key’ hypothesis"] },
+]
+
 Reasoning behind schema choice: We store the questions and relevant annotations in the above schema format
 so that the search operation on the 'questions' collection remains efficient and fast as it will involve an
 array query on the 'annotations' array based on the array of relevant topics retrieved based on the search topic
@@ -33,10 +39,39 @@ The schema: Collection name: 'topics'
   } 
 ]
 
+Example:
+[
+  {
+    _id: "Endoplasmic reticulum",
+    children: []
+  },
+  {
+    _id: "Mitochondria",
+    children: []
+  },
+  {
+    _id: "Golgi body",
+    children: []
+  },
+  {
+    _id: "Ribosomes",
+    children: []
+  },
+  {
+    _id: "Identify the following membrane systems and organelles from diagrams and electron micrographs:",
+    children: ["Endoplasmic reticulum", "Mitochondria", "Golgi body", "Ribosomes"]
+  },
+  {
+    _id: "Cell Structure and Organisation",
+    children: ["Endoplasmic reticulum", "Mitochondria", "Golgi body", "Ribosomes",
+                "Identify the following membrane systems and organelles from diagrams and electron micrographs:"]
+  }
+]
+
 Reasoning behind schema choice: We store all descendants (all children below current node) in the 'children' array
 so as to ensure fast and efficient retrieval of all relevant topics for which question numbers need to be retrieved
-based on the search topic. The trade-off hear is that add and update operations of nodes will be slightly more
-tediuos since they will need to add and update in multiple node levels across a tree path.
+based on the search topic. The trade-off here is that add and update operations of nodes will be slightly more
+tedious since they will need to add and update in multiple node levels across a tree path.
 The alternative approach can be to store only the immediate children nodes in the children array, in which case, 
 the search logic will have to recursively find all relevant topics (children nodes) by traversing through multiple
 tree paths which might lead to the Search API being slower and less efficient. And since, retrieval is a more common
@@ -54,7 +89,7 @@ the Firebase Functions HTTPS request endpoint is called because of the cold star
 
 
 - Requirement 5: As mentioned above, the API endpoint has been hosted and deployed using Firebase Functions.
-For the database, I have invited ayush@pncl.tech to the MongoDB Atlas project and an email should have been sent
+For the database, I have invited Ayush using his email to the MongoDB Atlas project and an email should have been sent
 for the same. In the MongoDB Atlas, one can click on 'Databases' in the left menu panel and then click on 
 'Browse Collections' option next to the Cluster options to view the database (questions), collections
 (questions and topics) and corresponding indices of the 2 collections.
